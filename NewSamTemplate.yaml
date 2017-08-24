@@ -6,4 +6,4 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs6.10
-      CodeUri: './build-output.zip'
+      CodeUri: 'https://s3-eu-west-1.amazonaws.com/taco-alexa/taco/build-output.zip

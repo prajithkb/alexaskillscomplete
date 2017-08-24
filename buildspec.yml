@@ -5,8 +5,6 @@ phases:
     commands:
       - echo Build started on `date`
       - npm install
-      - aws cloudformation package --template-file NewSamTemplate.yaml --s3-bucket taco-alexa
-                                   --output-template-file NewSamTemplate.yaml
   post_build:
     commands:
       - echo Running post_build commands
