@@ -13,7 +13,8 @@ phases:
       - cp -R index.js  build-output
       - cp -R node_modules build-output
       - ls build-output
-      - zip -r build-output.zip build-output/*
+      - cd build-output
+      - zip -r ../build-output.zip *
       - echo Build completed on `date`
 artifacts:
   files:
