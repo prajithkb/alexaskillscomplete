@@ -22,6 +22,6 @@ artifacts:
   type: zip
   files:
     - build-output.zip
-    - NewsamTemplate.yaml
+    - NewSamTemplate.yaml
 
 
