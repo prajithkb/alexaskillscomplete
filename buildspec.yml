@@ -9,7 +9,8 @@ phases:
     commands:
       - echo Running post_build commands
       - mkdir build-output
-      - cp -R folder/index.js node_modules/ build-output
+	  - ls
+      - cp -R index.js node_modules/ build-output
       - echo Build completed on `date`
 artifacts:
   files:
