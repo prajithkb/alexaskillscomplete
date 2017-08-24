@@ -1,0 +1,16 @@
+version: 0.1
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm install
+  post_build:
+    commands:
+      - echo Running post_build commands
+      - mkdir build-output
+      - cp -R folder/myfile.js node_modules/ build-output
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - build-output/**/*
