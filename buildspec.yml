@@ -10,8 +10,10 @@ phases:
       - echo Running post_build commands
       - mkdir build-output
       - ls
-      - cp -R index.js node_modules/ build-output
+      - cp -R index.js  build-output
+      - cp -R node_modules/ build-output
+      - zip -r build-output
       - echo Build completed on `date`
 artifacts:
   files:
-    - build-output/**/*
+    - build-output.zip
