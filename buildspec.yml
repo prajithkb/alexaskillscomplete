@@ -5,6 +5,8 @@ phases:
     commands:
       - echo Build started on `date`
       - npm install
+      - aws cloudformation package --template-file NewsamTemplate.yaml --s3-bucket taco-alexa
+                                   --output-template-file NewSamTemplate.yaml
   post_build:
     commands:
       - echo Running post_build commands
@@ -17,5 +19,9 @@ phases:
       - ls
       - echo Build completed on `date`
 artifacts:
+  type: zip
   files:
     - build-output.zip
+    - NewsamTemplate.yaml
+
+
