@@ -7,3 +7,4 @@ Resources:
       Handler: index.handler
       Runtime: nodejs6.10
       CodeUri: 's3://taco-alexa/taco/build-output.zip'
+      FunctionName: 'Taco'
