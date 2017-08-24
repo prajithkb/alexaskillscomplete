@@ -6,9 +6,6 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs6.10
-      Fn::GetAtt: 
-        - "LambdaExecutionRole"
-        - "Arn"
       Code: 
         S3Bucket: "taco-alexa"
         S3Key: "build-output.zip"
