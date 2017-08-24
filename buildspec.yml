@@ -11,7 +11,8 @@ phases:
       - mkdir build-output
       - ls
       - cp -R index.js  build-output
-      - cp -R node_modules/ build-output
+      - cp -R node_modules build-output
+      - ls build-output
       - zip -r build-output.zip build-output/*
       - echo Build completed on `date`
 artifacts:
