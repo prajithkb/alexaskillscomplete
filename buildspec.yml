@@ -14,7 +14,8 @@ phases:
       - cp -R node_modules build-output
       - ls build-output
       - cd build-output
-      - zip -r ../build-output.zip *
+      - pwd
+      - zip -r ../build-output.zip ./*
       - pwd
       - ls
       - cd ..
