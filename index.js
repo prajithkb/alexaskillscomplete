@@ -11,6 +11,8 @@ const IMAGE_OBJ = {
 
 const APP_ID = "amzn1.ask.skill.1fc839fb-5d90-4318-bc32-5e4dc60d61ed"; // TODO replace with your app ID (OPTIONAL).
 
+const TEXT = { text : "Hi" };
+
 String.prototype.insert = function (index, string) {
     if (index > 0)
         return this.substring(0, index) + string + this.substring(index, this.length);
@@ -37,19 +39,16 @@ const startStateHandlers = Alexa.CreateStateHandler(states.START, {
         this.emitWithState("BusIntent");
     },
     'BusIntent': function () {
-        const templateDirective = {
-            type: 'Display.RenderTemplate',
-            template: createTemplate()
-        };
-
+        console.log("am here");
         tfl.call(this, this, function (args) {
             if (args.emitType == ":tell") {
-                this.emit(args.emitType, args.speak);
-            } else if (args.emitType == ":tellWithCard") {
-                this.emit(args.emitType, args.speak, args.title, args.content, IMAGE_OBJ);
+                this.emit(args.emitType, args.speak,templateDirective());
+           // } else if (args.emitType == ":tellWithCard") {
+               // this.emit(args.emitType, args.speak, args.title, args.content, null,[templateDirective()]);
             } else {
-                
-                this.emit(args.emitType, args.speak, args.reprompt, args.title, args.content, IMAGE_OBJ, [templateDirective]);
+                console.log
+                this.emit(args.emitType,args.speak, args.reprompt,templateDirective())
+                //this.emit(args.emitType, args.speak, args.reprompt, args.title, args.content, null, [templateDirective()]);
             }
         });
 
@@ -67,13 +66,15 @@ const endStateHandlers = Alexa.CreateStateHandler(states.END, {
         this.emitWithState("BusIntent");
     },
     'BusIntent': function () {
-        tfl.call(this, this, function (args) {
+
+         tfl.call(this, this, function (args) {
             if (args.emitType == ":tell") {
-                this.emit(args.emitType, args.speak);
-            } else if (args.emitType == ":tellWithCard") {
-                this.emit(args.emitType, args.speak, args.title, args.content, IMAGE_OBJ);
+                this.emit(args.emitType, args.speak,templateDirective());
+           // } else if (args.emitType == ":tellWithCard") {
+               // this.emit(args.emitType, args.speak, args.title, args.content, null,[templateDirective()]);
             } else {
-                this.emit(args.emitType, args.speak, args.reprompt, args.title, args.content, IMAGE_OBJ);
+                this.emit(args.emitType,args.speak, args.reprompt,templateDirective())
+                //this.emit(args.emitType, args.speak, args.reprompt, args.title, args.content, null, [templateDirective()]);
             }
         });
 
@@ -81,7 +82,8 @@ const endStateHandlers = Alexa.CreateStateHandler(states.END, {
     'CompleteListIntent': function () {
         console.log(" in the complete intent")
         tfl.call(this, this, function (args) {
-            this.emit(":tellWithCard", args.speak, args.title, args.content, IMAGE_OBJ);
+           // this.emit(":tellWithCard", args.speak, args.title, args.content, null,[templateDirective()]);
+            this.emit(":tell", args.speak,templateDirective());
         }, function (buses) {
             var speakableText = "";
             Object.keys(buses).forEach(function (key) {
@@ -133,8 +135,6 @@ const endStateHandlers = Alexa.CreateStateHandler(states.END, {
 var newSessionHandlers = {
     "NewSession": function () {
         this.handler.state = states.START;
-        this.response.renderTemplate(createTemplate());
-        //this.emit(':responseReady');
         this.emitWithState("BusIntent");
     },
     "LaunchRequest": function () {
@@ -143,14 +143,14 @@ var newSessionHandlers = {
     },
     'BusIntent': function () {
         this.handler.state = states.START;
-        this.response.renderTemplate(createTemplate());
         tfl.call(this, this, function (args) {
             if (args.emitType == ":tell") {
-                this.emit(args.emitType, args.speak);
-            } else if (args.emitType == ":tellWithCard") {
-                this.emit(args.emitType, args.speak, args.title, args.content, IMAGE_OBJ);
+                this.emit(args.emitType, args.speak,templateDirective());
+           // } else if (args.emitType == ":tellWithCard") {
+               // this.emit(args.emitType, args.speak, args.title, args.content, null,[templateDirective()]);
             } else {
-                this.emit(args.emitType, args.speak, args.reprompt, args.title, args.content, IMAGE_OBJ);
+                this.emit(args.emitType,args.speak, args.reprompt,templateDirective())
+                //this.emit(args.emitType, args.speak, args.reprompt, args.title, args.content, null, [templateDirective()]);
             }
         });
 
@@ -178,13 +178,20 @@ function createTemplate() {
     const builder = new Alexa.templateBuilders.BodyTemplate1Builder();
     const makePlainText = Alexa.utils.TextUtils.makePlainText;
     const makeImage = Alexa.utils.ImageUtils.makeImage;
-    let template = builder.setTitle('My BodyTemplate1')
-        .setBackgroundImage(makeImage('http://url/to/my/img.png'))
-        .setTextContent(makePlainText('Text content'))
+    let template = builder.setTitle('Your Next Bus- Taco :)')
+        .setBackgroundImage(makeImage(IMAGE_OBJ.smallImageUrl))
+        .setTextContent(makePlainText(TEXT.text))
         .build();
     return template;
 }
 
+function templateDirective(){
+    const templateDirective = {
+            type: 'Display.RenderTemplate',
+            template: createTemplate()
+        };
+    return templateDirective;
+}
 
 function tfl(context, callback, speakableText) {
     var options = {
@@ -253,11 +260,11 @@ function tfl(context, callback, speakableText) {
                 console.log(speak);
                 if (context.handler.state == states.END) {
                     result.speak = speak;
-                    result.emitType = ":tellWithCard";
+                    result.emitType = ":tell";
                 } else {
                     context.handler.state = states.END;
                     result.speak = speak + " " + result.reprompt;
-                    result.emitType = ":askWithCard";
+                    result.emitType = ":ask";
                 }
 
             } catch (e) {
@@ -266,6 +273,7 @@ function tfl(context, callback, speakableText) {
             }
             result.title = "Your Next Bus";
             result.content = displayText;
+            TEXT.text = result.context;
             callback.call(context, result);
         });
 
