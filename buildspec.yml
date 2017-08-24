@@ -15,6 +15,7 @@ phases:
       - ls build-output
       - cd build-output
       - zip -r ../build-output.zip *
+      - cd ..
       - echo Build completed on `date`
 artifacts:
   files:
