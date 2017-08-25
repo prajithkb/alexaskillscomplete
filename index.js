@@ -176,8 +176,9 @@ function createTemplate() {
     const makePlainText = Alexa.utils.TextUtils.makePlainText;
     const makeImage = Alexa.utils.ImageUtils.makeImage;
     console.log(TEXT.text);
-    let template = builder.setTitle('Your Next Bus- Taco :)')
-        .setImage(IMAGE_OBJ.smallImageUrl)
+    let template = builder
+        .setTitle('Your Next Bus- Taco :)')
+        .setBackgroundImage(makeImage(IMAGE_OBJ.smallImageUrl,900,1000,'LARGE' ,"Taco"))
         .setTextContent(makePlainText(TEXT.text))
         .build();
     return template;
@@ -267,7 +268,7 @@ function tfl(context, callback, speakableText) {
                     result.emitType = ":tell";
                 } else {
                     context.handler.state = states.END;
-                    result.speak = speak + "." + result.reprompt;
+                    result.speak = speak + " . " + result.reprompt;
                     result.emitType = ":ask";
                 }
 
