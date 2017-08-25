@@ -12,7 +12,6 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - node_modules/*
-    - index.js
+    - '**/*'
 
 
