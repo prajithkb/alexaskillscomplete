@@ -8,10 +8,11 @@ phases:
   post_build:
     commands:
       - echo Running post_build commands
+      - ls
       - echo Build completed on `date`
 artifacts:
   files:
-    - node_modules
+    - node_modules/*
     - index.js
 
 
