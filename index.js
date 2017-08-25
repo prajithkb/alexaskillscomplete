@@ -5,8 +5,8 @@ const Alexa = require('alexa-sdk');
 var https = require('https');
 
 const IMAGE_OBJ = {
-    smallImageUrl: "https://doc-0c-58-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/lq84vmql3lucv8lrnn8no9u9ohil4pml/1503259200000/13772780686574188783/*/0B8zMxlV1F5NZXzFpRVk4LUV3NzQ",
-    largeImageUrl: "https://doc-0c-58-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/lq84vmql3lucv8lrnn8no9u9ohil4pml/1503259200000/13772780686574188783/*/0B8zMxlV1F5NZXzFpRVk4LUV3NzQ"
+    smallImageUrl: "https://image.ibb.co/iQ5ESQ/IMG_20170702_WA0004.jpg",
+    largeImageUrl: "https://image.ibb.co/iQ5ESQ/IMG_20170702_WA0004.jpg"
 };
 
 const APP_ID = "amzn1.ask.skill.1fc839fb-5d90-4318-bc32-5e4dc60d61ed"; // TODO replace with your app ID (OPTIONAL).
@@ -177,7 +177,7 @@ function createTemplate() {
     const makeImage = Alexa.utils.ImageUtils.makeImage;
     console.log(TEXT.text);
     let template = builder.setTitle('Your Next Bus- Taco :)')
-        .setBackgroundImage(makeImage(IMAGE_OBJ.smallImageUrl,1920,1080,null ,"Taco"))
+        .setBackgroundImage(makeImage(IMAGE_OBJ.smallImageUrl,900,1000,'LARGE' ,"Taco"))
         .setTextContent(makePlainText(TEXT.text))
         .build();
     return template;
