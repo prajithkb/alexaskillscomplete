@@ -190,7 +190,7 @@ function templateDirective(){
             type: 'Display.RenderTemplate',
             template: createTemplate()
         };
-    return templateDirective;
+        return [templateDirective];
 }
 
 function tfl(context, callback, speakableText) {
