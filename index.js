@@ -39,14 +39,12 @@ const startStateHandlers = Alexa.CreateStateHandler(states.START, {
         this.emitWithState("BusIntent");
     },
     'BusIntent': function () {
-        console.log("am here");
         tfl.call(this, this, function (args) {
             if (args.emitType == ":tell") {
                 this.emit(args.emitType, args.speak,templateDirective());
            // } else if (args.emitType == ":tellWithCard") {
                // this.emit(args.emitType, args.speak, args.title, args.content, null,[templateDirective()]);
             } else {
-                console.log
                 this.emit(args.emitType,args.speak, args.reprompt,templateDirective())
                 //this.emit(args.emitType, args.speak, args.reprompt, args.title, args.content, null, [templateDirective()]);
             }
@@ -66,7 +64,6 @@ const endStateHandlers = Alexa.CreateStateHandler(states.END, {
         this.emitWithState("BusIntent");
     },
     'BusIntent': function () {
-
          tfl.call(this, this, function (args) {
             if (args.emitType == ":tell") {
                 this.emit(args.emitType, args.speak,templateDirective());
@@ -178,19 +175,20 @@ function createTemplate() {
     const builder = new Alexa.templateBuilders.BodyTemplate1Builder();
     const makePlainText = Alexa.utils.TextUtils.makePlainText;
     const makeImage = Alexa.utils.ImageUtils.makeImage;
+    console.log(TEXT.text);
     let template = builder.setTitle('Your Next Bus- Taco :)')
-        .setBackgroundImage(makeImage(IMAGE_OBJ.smallImageUrl))
+        .setBackgroundImage(makeImage(IMAGE_OBJ.smallImageUrl,1920,1080,null ,"Taco"))
         .setTextContent(makePlainText(TEXT.text))
         .build();
     return template;
 }
 
 function templateDirective(){
-    const templateDirective = {
+    const td = {
             type: 'Display.RenderTemplate',
             template: createTemplate()
         };
-        return [templateDirective];
+        return [td];
 }
 
 function tfl(context, callback, speakableText) {
@@ -273,7 +271,7 @@ function tfl(context, callback, speakableText) {
             }
             result.title = "Your Next Bus";
             result.content = displayText;
-            TEXT.text = result.context;
+            TEXT.text = result.content;
             callback.call(context, result);
         });
 
