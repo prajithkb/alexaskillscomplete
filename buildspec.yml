@@ -8,17 +8,10 @@ phases:
   post_build:
     commands:
       - echo Running post_build commands
-      - mkdir build-output
-      - ls
-      - cp -R index.js  build-output
-      - cp -R node_modules build-output
-      - ls build-output
-      - cd build-output && zip -r ../build-output.zip ./*
-      - ls
       - echo Build completed on `date`
 artifacts:
   files:
-    - build-output.zip
-    - NewSamTemplate.yaml
+    - node_modules
+    - index.js
 
 
