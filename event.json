@@ -1,24 +1,31 @@
 {
   "session": {
     "new": true,
-    "sessionId": "SessionId.b7caa5d4-b01a-4057-af70-99d177164234",
+    "sessionId": "SessionId.93f9e431-4c69-42ee-8644-62f15747ba67",
     "application": {
       "applicationId": "amzn1.ask.skill.1fc839fb-5d90-4318-bc32-5e4dc60d61ed"
     },
-    "attributes": {},
+    "attributes": {
+      "STATE": "_END"
+    },
     "user": {
       "userId": "amzn1.ask.account.AHQYP653YML437ZBQPWWLLM2SIQ43KWUATCXNQISKMG6PE54F37ZBNIW6LBLSRBMVBKSF56LYF626ZN5ULJUVW76XIVN57F5D336V3SW34FKIKXQPN5PJSI4VAOXQVNSWZ2RVXZUYP4JT5PXUF34BEROUJK42XUNIMASLFZE3BUHBRSZOEHWXPIS3PDQ54W4DCDCMOAFRRXSPMY"
     }
   },
   "request": {
     "type": "IntentRequest",
-    "requestId": "EdwRequestId.cd9b72f3-02b2-4bc2-94f0-9376350a127c",
+    "requestId": "EdwRequestId.17be2228-61a0-4f4b-9af4-633fcd753ddd",
     "intent": {
       "name": "BusIntent",
-      "slots": {}
+      "slots": {
+        "busNumber": {
+          "name": "busNumber",
+          "value": "341"
+        }
+      }
     },
     "locale": "en-US",
-    "timestamp": "2017-08-23T21:36:57Z"
+    "timestamp": "2017-08-25T22:02:07Z"
   },
   "context": {
     "AudioPlayer": {
@@ -43,4 +50,3 @@
   },
   "version": "1.0"
 }
-

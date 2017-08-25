@@ -172,12 +172,12 @@ var newSessionHandlers = {
 };
 
 function createTemplate() {
-    const builder = new Alexa.templateBuilders.BodyTemplate1Builder();
+    const builder = new Alexa.templateBuilders.BodyTemplate6Builder();
     const makePlainText = Alexa.utils.TextUtils.makePlainText;
     const makeImage = Alexa.utils.ImageUtils.makeImage;
     console.log(TEXT.text);
     let template = builder.setTitle('Your Next Bus- Taco :)')
-        .setBackgroundImage(makeImage(IMAGE_OBJ.smallImageUrl,900,1000,'LARGE' ,"Taco"))
+        .setImage(IMAGE_OBJ.smallImageUrl)
         .setTextContent(makePlainText(TEXT.text))
         .build();
     return template;
@@ -197,6 +197,7 @@ function tfl(context, callback, speakableText) {
         path: '/StopPoint/490003114S/arrivals',
         port: 443,
     };
+
     var result = {};
     var speak = "Sorry I am not able to find it right now!";
     var displayText = "";
@@ -208,13 +209,18 @@ function tfl(context, callback, speakableText) {
         res.on('data', function (data) {
             body += data;
         });
-
+        var busId = getBusId(context.event.request.intent.slots);
+        console.log("Obtained bus number as - " + busId);
         var busesAndTimeRemaining = {};
         var buses = {};
         res.on('end', function () {
             try {
                 response = JSON.parse(body);
-                response.sort(function (a, b) {
+                response.filter(function(r){
+                    
+                    let v =  filterByBusId(busId,r.lineName);
+                    return v;
+                }).sort(function (a, b) {
                     //Sort based on the ETA
                     if (a.timeToStation < b.timeToStation) {
                         return -1;
@@ -238,11 +244,12 @@ function tfl(context, callback, speakableText) {
                     }
                     buses[x.bus].push(x.timeRemaining);
                 });
-                console.log(JSON.stringify(buses));
+                console.log("Display map : "+ JSON.stringify(buses));
                 Object.keys(buses).forEach(function (key) {
                     displayText += "Bus no - " + key + " (in mins): " + buses[key].join(",") + ".\n";
                 });
-                console.log(displayText);
+                console.log("Speak map : " + JSON.stringify(busesAndTimeRemaining));
+                console.log("Display text : " + displayText);
                 speak = "";
                 if (!speakableText) {
                     Object.keys(busesAndTimeRemaining).forEach(function (key) {
@@ -253,15 +260,14 @@ function tfl(context, callback, speakableText) {
                     console.log("Using injected speakable text transformer");
                     speak = speakableText(buses);
                 }
-                console.log(JSON.stringify(busesAndTimeRemaining));
-                result.reprompt = ". Do you want to know the complete list?";
-                console.log(speak);
+                result.reprompt = "Do you want to know the complete list?";
+                console.log("Speakable text : " + speak);
                 if (context.handler.state == states.END) {
                     result.speak = speak;
                     result.emitType = ":tell";
                 } else {
                     context.handler.state = states.END;
-                    result.speak = speak + " " + result.reprompt;
+                    result.speak = speak + "." + result.reprompt;
                     result.emitType = ":ask";
                 }
 
@@ -285,6 +291,17 @@ function tfl(context, callback, speakableText) {
     });
 }
 
+function getBusId(slots){
+    if(slots && slots.busNumber && slots.busNumber.value){
+        return slots.busNumber.value
+    }else {
+        return null;
+    }
+}
+
+function filterByBusId(busId, busIdToCheck){
+    return (busId && busIdToCheck == busId ) || !busId;
+}
 
 exports.handler = function (event, context) {
     var alexa = Alexa.handler(event, context);
