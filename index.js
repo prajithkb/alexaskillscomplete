@@ -304,13 +304,19 @@ function getBusId(context) {
     if(context.attributes['busNumber']){
         return context.attributes['busNumber'];
     }
-    let slots = context.event.request.intent.slots
+    let slots = get(context,'event.request.intent.slots')
     if (slots && slots.busNumber && slots.busNumber.value) {
         context.attributes['busNumber'] = slots.busNumber.value;
         return slots.busNumber.value
     } else {
         return null;
     }
+}
+
+function get(obj, key) {
+    return key.split(".").reduce(function(o, x) {
+        return (typeof o == "undefined" || o === null) ? o : o[x];
+    }, obj);
 }
 
 function filterByBusId(busId, busIdToCheck) {
