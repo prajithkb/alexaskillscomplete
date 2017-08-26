@@ -305,7 +305,7 @@ function getBusId(context) {
         return context.attributes['busNumber'];
     }
     let slots = context.event.request.intent.slots
-    if (slots && slots.busNumber && slots.busNumber.value && isNaN(slots.busNumber.value)) {
+    if (slots && slots.busNumber && slots.busNumber.value) {
         context.attributes['busNumber'] = slots.busNumber.value;
         return slots.busNumber.value
     } else {
